@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Design system Tectus
+ * Paleta fechada no briefing de identidade visual. Um acento só.
+ * Ver docs/plano-landing-page.html, bloco 03.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  /* Neutros. Enviesados para o azul, para conversarem com o acento. */
+  --color-grafite: #111827;
+  --color-grafite-alto: #0b111c;
+  --color-grafite-suave: #1c2635;
+  --color-chumbo: #374151;
+  --color-cinza: #9ca3af;
+  /*
+   * Cinza para texto pequeno sobre fundo claro. O `--color-cinza` acima só
+   * alcança 2,4:1 sobre papel e 2,3:1 sobre cinza-fundo, o que reprova em
+   * WCAG AA: ele serve para traço e ícone decorativo, e para texto sobre
+   * grafite (7:1), nunca para rótulo sobre fundo claro. Este passa em todos
+   * os três fundos claros (4,8:1 no pior caso) sem virar chumbo.
+   */
+  --color-cinza-texto: #5f6b7d;
+  --color-cinza-linha: #e2e8f0;
+  --color-cinza-fundo: #eef2f6;
+  --color-papel: #f8fafc;
+
+  /* Acento único. */
+  --color-petroleo: #0e7c86;
+  --color-petroleo-escuro: #0a5f67;
+  --color-petroleo-claro: #22b4bf;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Respiro vertical de seção: 64px no mobile, 96px a partir do desktop. */
+  --spacing-secao: 4rem;
+  --spacing-secao-lg: 6rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Compensa o header fixo quando o link de âncora salta para a seção. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-grafite);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Foco visível em tudo que recebe teclado. Requisito de acessibilidade. */
+  :focus-visible {
+    outline: 2px solid var(--color-petroleo);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Em fundo grafite o anel precisa da versão clara para manter contraste. */
+  .fundo-escuro :focus-visible {
+    outline-color: var(--color-petroleo-claro);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  /* Entrada de seção. Ativada pelo componente Reveal. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 480ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-visivel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Camada de movimento e profundidade
+ * Adicionada na revisão de design: a versão anterior tinha um único
+ * efeito na página inteira (fade de 12px), o que deixava tudo estático.
+ * Tudo aqui é CSS puro, sem biblioteca de animação, e é neutralizado
+ * pelo bloco prefers-reduced-motion acima.
+ * ------------------------------------------------------------------ */
+
+/* Elevação tingida de petróleo em vez de cinza puro. Sombra neutra sobre
+   fundo enviesado para o azul lê como sujeira; esta lê como profundidade.
+   Declaradas com @utility, e não em @layer utilities, porque precisam
+   funcionar com variantes (hover:elevacao-1). */
+@utility elevacao-1 {
+  box-shadow:
+    0 1px 2px -1px rgb(14 124 134 / 0.09),
+    0 2px 8px -2px rgb(17 24 39 / 0.06);
+}
+
+@utility elevacao-2 {
+  box-shadow:
+    0 2px 4px -2px rgb(14 124 134 / 0.1),
+    0 12px 28px -8px rgb(17 24 39 / 0.12);
+}
+
+@utility elevacao-3 {
+  box-shadow:
+    0 4px 10px -4px rgb(14 124 134 / 0.14),
+    0 24px 56px -16px rgb(17 24 39 / 0.18);
+}
+
+@layer utilities {
+  /* Halo do acento. Usado atrás do diagrama do hero e das seções grafite,
+     para o fundo deixar de ser uma chapa lisa. */
+  .halo-petroleo {
+    background-image: radial-gradient(
+      50% 50% at 50% 50%,
+      rgb(34 180 191 / 0.22) 0%,
+      rgb(14 124 134 / 0.08) 45%,
+      transparent 72%
+    );
+  }
+
+  /* Malha de desenho técnico. Referência à origem do nome (tectus,
+     construído). Vive atrás de conteúdo, sempre com máscara. */
+  .malha-tecnica-escura {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* Traço que se desenha quando entra na tela. O componente troca
+     --tamanho pelo comprimento real do path. */
+  .traco-desenha {
+    stroke-dasharray: var(--tamanho, 1000);
+    stroke-dashoffset: var(--tamanho, 1000);
+    transition: stroke-dashoffset 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .traco-desenhado {
+    stroke-dashoffset: 0;
+  }
+
+  /* Fluxo contínuo nos trilhos organizados do diagrama. */
+  .fluxo-trilho {
+    stroke-dasharray: 5 11;
+    animation: correr-fluxo 1.1s linear infinite;
+  }
+
+  /* Brilho que atravessa o botão principal. Passa uma vez a cada ciclo
+     longo: chama atenção sem virar pisca-pisca. */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.28) 50%,
+      transparent 80%
+    );
+  }
+
+  .sheen:hover::after {
+    animation: atravessar 900ms ease-out;
+  }
+}
+
+@keyframes correr-fluxo {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+@keyframes atravessar {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes desenhar-caminho {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+  }
+}

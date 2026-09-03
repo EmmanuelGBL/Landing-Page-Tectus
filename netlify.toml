@@ -1,0 +1,51 @@
+# Publicação da landing page da Tectus na Netlify.
+#
+# O site é export estático do Next (ver next.config.ts): a Netlify serve HTML
+# pronto do CDN, sem função serverless e sem depender do adaptador de Next da
+# plataforma acompanhar a versão do framework.
+
+[build]
+  # $URL é a URL principal do site na Netlify. Hoje é o subdomínio .netlify.app;
+  # passa a ser tectussolucoes.com.br assim que o domínio for apontado, e é isso
+  # que libera a indexação sozinho (ver INDEXAVEL em src/lib/site.ts).
+  #
+  # A variável é definida dentro do script, não na linha de comando: a Netlify
+  # roda o build no shell do sistema, e o deploy pela CLI roda na máquina de
+  # quem publica, onde `VAR=valor comando` não funciona (Windows).
+  command = "npm run build:publicacao"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # O site é export estático: o runtime de Next da Netlify não deve entrar no
+  # caminho. Sem isso o adaptador é aplicado sozinho só por existir `next` nas
+  # dependências, que é exatamente a peça que este projeto decidiu não ter.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+# O export estático grava a imagem de Open Graph sem extensão no nome
+# (out/opengraph-image). Sem este cabeçalho a Netlify serve como binário
+# genérico e o preview de compartilhamento não renderiza.
+[[headers]]
+  for = "/opengraph-image"
+  [headers.values]
+    Content-Type = "image/png"
+    Cache-Control = "public, max-age=86400"
+
+# Assets com hash no nome nunca mudam de conteúdo: cache longo é seguro e
+# derruba o tempo de carregamento nas visitas seguintes.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/clientes/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"

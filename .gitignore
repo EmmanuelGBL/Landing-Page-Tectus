@@ -1,0 +1,60 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# Exceção deliberada: .env.production entra no repositório.
+#
+# Os dois valores que ele carrega (a URL do site e o ID do container do GTM)
+# não são segredo: os dois vão parar no HTML de toda página publicada, e
+# qualquer visitante lê os dois com Ctrl+U. Guardá-los fora do repositório não
+# esconderia nada de ninguém.
+#
+# O que ganharíamos escondendo é zero, e o que perderíamos é concreto: a VPS
+# faz o build a partir deste repositório, e sem essas variáveis o site sobe
+# com noindex e a medição desligada, funcionando para quem visita e invisível
+# para o Google. Esse é o tipo de falha que só aparece semanas depois.
+!.env.production
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Local Netlify folder
+.netlify
+
+# Pacote temporário de publicação
+*.tar.gz

@@ -1,0 +1,920 @@
+<title>Plano da Landing Tectus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ TOKENS: light é a base completa ============ */
+  :root{
+    --ground:        #F1F4F7;
+    --surface:       #FFFFFF;
+    --surface-sunk:  #E8EDF2;
+    --ink:           #111827;
+    --ink-2:         #374151;
+    --ink-3:         #6B7686;
+    --ink-4:         #9CA3AF;
+    --line:          #D4DBE3;
+    --line-soft:     #E2E8EF;
+    --grid-line:     rgba(17,24,39,0.055);
+    --accent:        #0E7C86;
+    --accent-ink:    #FFFFFF;
+    --accent-wash:   rgba(14,124,134,0.08);
+    --accent-edge:   rgba(14,124,134,0.28);
+    --wf-fill:       #DDE4EC;
+    --wf-fill-2:     #C8D2DD;
+    --warn:          #A15C11;
+    --warn-wash:     rgba(161,92,17,0.09);
+    --warn-edge:     rgba(161,92,17,0.26);
+    --shadow-sm:     0 1px 2px rgba(17,24,39,0.05);
+    --shadow-md:     0 1px 3px rgba(17,24,39,0.05), 0 14px 34px -20px rgba(17,24,39,0.28);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:        #0A0E13;
+      --surface:       #131A22;
+      --surface-sunk:  #0F151C;
+      --ink:           #EEF2F6;
+      --ink-2:         #B7C0CC;
+      --ink-3:         #8B96A5;
+      --ink-4:         #6B7686;
+      --line:          #26313D;
+      --line-soft:     #1D2630;
+      --grid-line:     rgba(255,255,255,0.04);
+      --accent:        #2BB8C4;
+      --accent-ink:    #04191C;
+      --accent-wash:   rgba(43,184,196,0.10);
+      --accent-edge:   rgba(43,184,196,0.32);
+      --wf-fill:       #222D39;
+      --wf-fill-2:     #2E3B49;
+      --warn:          #D99B4A;
+      --warn-wash:     rgba(217,155,74,0.10);
+      --warn-edge:     rgba(217,155,74,0.28);
+      --shadow-sm:     0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md:     0 1px 3px rgba(0,0,0,0.4), 0 18px 40px -22px rgba(0,0,0,0.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:        #0A0E13;
+    --surface:       #131A22;
+    --surface-sunk:  #0F151C;
+    --ink:           #EEF2F6;
+    --ink-2:         #B7C0CC;
+    --ink-3:         #8B96A5;
+    --ink-4:         #6B7686;
+    --line:          #26313D;
+    --line-soft:     #1D2630;
+    --grid-line:     rgba(255,255,255,0.04);
+    --accent:        #2BB8C4;
+    --accent-ink:    #04191C;
+    --accent-wash:   rgba(43,184,196,0.10);
+    --accent-edge:   rgba(43,184,196,0.32);
+    --wf-fill:       #222D39;
+    --wf-fill-2:     #2E3B49;
+    --warn:          #D99B4A;
+    --warn-wash:     rgba(217,155,74,0.10);
+    --warn-edge:     rgba(217,155,74,0.28);
+    --shadow-sm:     0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md:     0 1px 3px rgba(0,0,0,0.4), 0 18px 40px -22px rgba(0,0,0,0.8);
+  }
+
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet{
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding: 56px 20px 120px;
+  }
+  .wrap{ max-width: 1080px; margin: 0 auto; }
+
+  .mono{
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+  }
+
+  /* ============ CABEÇALHO DO DOCUMENTO ============ */
+  .doc-head{
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+    margin-bottom: 48px;
+  }
+  .doc-head .kicker{
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+  .doc-head .kicker .tmark{ width: 17px; height: 17px; display:block; }
+  h1{
+    font-size: clamp(30px, 4.4vw, 44px);
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    font-weight: 800;
+    margin: 0 0 18px;
+    max-width: 19ch;
+    text-wrap: balance;
+  }
+  .lede{
+    font-size: 17px;
+    line-height: 1.62;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .meta-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 26px;
+  }
+  .chip{
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink-3);
+    border-radius: 5px;
+    padding: 5px 9px;
+  }
+  .chip.on{
+    border-color: var(--accent-edge);
+    background: var(--accent-wash);
+    color: var(--accent);
+  }
+  .chip.hold{
+    border-color: var(--warn-edge);
+    background: var(--warn-wash);
+    color: var(--warn);
+  }
+
+  /* ============ SEÇÕES DO DOC ============ */
+  .block{ margin-bottom: 72px; }
+  .block-head{
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid var(--line-soft);
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+  }
+  .block-head .idx{
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  h2{
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.018em;
+    margin: 0;
+    flex: 1;
+  }
+  .block-head .note{
+    color: var(--ink-4);
+    font-size: 12px;
+    text-align: right;
+  }
+  h3{
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: -0.008em;
+    margin: 0 0 10px;
+  }
+  p{ margin: 0 0 14px; color: var(--ink-2); max-width: 68ch; }
+  p:last-child{ margin-bottom: 0; }
+  strong{ color: var(--ink); font-weight: 620; }
+
+  /* ============ ESTRATÉGIA ============ */
+  .thesis{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px 10px 10px 3px;
+    padding: 22px 26px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 26px;
+  }
+  .thesis p{ max-width: 72ch; }
+
+  .lever-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    gap: 14px;
+  }
+  .lever{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lever .obj{
+    color: var(--ink-4);
+    font-style: normal;
+  }
+  .lever .obj::before{ content: "\201C"; }
+  .lever .obj::after{ content: "\201D"; }
+  .lever p{ font-size: 13.5px; margin: 0; }
+
+  /* ============ WIREFRAME ============ */
+  .wf-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .wf-row{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    overflow: hidden;
+  }
+  @media (max-width: 780px){
+    .wf-row{ grid-template-columns: 1fr; }
+  }
+  .wf-canvas{
+    background: var(--surface-sunk);
+    border-right: 1px solid var(--line-soft);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    min-height: 132px;
+  }
+  @media (max-width: 780px){
+    .wf-canvas{ border-right: none; border-bottom: 1px solid var(--line-soft); }
+  }
+  .bar{ height: 7px; border-radius: 2px; background: var(--wf-fill); }
+  .bar.t{ height: 11px; background: var(--wf-fill-2); }
+  .bar.s{ height: 5px; }
+  .btn-ghost{
+    height: 15px; width: 62px; border-radius: 3px;
+    background: var(--accent); opacity: 0.85;
+  }
+  .btn-line{
+    height: 15px; width: 52px; border-radius: 3px;
+    border: 1.5px solid var(--wf-fill-2);
+  }
+  .row-flex{ display: flex; gap: 6px; align-items: center; }
+  .cols{ display: grid; gap: 5px; }
+  .cols.c2{ grid-template-columns: 1fr 1fr; }
+  .cols.c3{ grid-template-columns: repeat(3, 1fr); }
+  .cell{
+    background: var(--wf-fill);
+    border-radius: 3px;
+    height: 26px;
+  }
+  .cell.tall{ height: 38px; }
+  .cell.accent{ background: var(--accent); opacity: 0.3; }
+  .spacer{ flex: 1; }
+
+  .wf-body{ padding: 18px 22px; }
+  .wf-title{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .wf-title .n{
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .wf-title .nm{ font-weight: 650; font-size: 15px; letter-spacing: -0.01em; }
+  .wf-title .tagcta{
+    border: 1px solid var(--accent-edge);
+    background: var(--accent-wash);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .wf-body p{ font-size: 13.5px; margin: 0 0 8px; max-width: 66ch; }
+  .wf-body .draft{
+    border-left: 2px solid var(--line);
+    padding-left: 12px;
+    margin-top: 10px;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .wf-body .draft b{ color: var(--ink-2); font-weight: 600; }
+
+  /* ============ DESIGN SYSTEM ============ */
+  .ds-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .panel{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  .panel h3{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--line-soft);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .panel h3 span.mono{ color: var(--ink-4); font-weight: 400; }
+
+  .swatches{ display: flex; flex-direction: column; gap: 7px; }
+  .sw{
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .sw .dot{
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .sw .nm{ font-size: 13px; font-weight: 550; }
+  .sw .hx{
+    margin-left: auto;
+    color: var(--ink-4);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+  }
+  .sw .use{ font-size: 11.5px; color: var(--ink-3); display:block; }
+
+  .type-row{
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--line-soft);
+  }
+  .type-row:last-child{ border-bottom: none; }
+  .type-row .lbl{
+    color: var(--ink-4);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    width: 74px;
+    flex-shrink: 0;
+  }
+  .type-row .spec{
+    margin-left: auto;
+    color: var(--ink-4);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+  .t-h1{ font-size: 25px; font-weight: 800; letter-spacing: -0.028em; }
+  .t-h2{ font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
+  .t-h3{ font-size: 15px; font-weight: 650; }
+  .t-body{ font-size: 14px; font-weight: 400; color: var(--ink-2); }
+  .t-eye{ font-family:"IBM Plex Mono",monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+
+  .btn-demo{ display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .b{
+    border-radius: 7px;
+    padding: 9px 16px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: default;
+  }
+  .b-primary{ background: var(--accent); color: var(--accent-ink); }
+  .b-secondary{ background: transparent; color: var(--ink); border-color: var(--line); }
+  .b-ghost{ background: transparent; color: var(--accent); padding-left: 4px; padding-right: 4px; }
+
+  .scale-strip{ display: flex; align-items: flex-end; gap: 6px; margin-top: 4px; }
+  .scale-strip div{
+    background: var(--accent-wash);
+    border: 1px solid var(--accent-edge);
+    border-radius: 3px;
+    width: 26px;
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    text-align: center;
+    padding-bottom: 2px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  /* ============ TABELA ============ */
+  .tbl-scroll{ overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table{ border-collapse: collapse; width: 100%; min-width: 560px; font-size: 13.5px; }
+  th, td{ text-align: left; padding: 11px 15px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  th{
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    font-weight: 500;
+    background: var(--surface-sunk);
+  }
+  tr:last-child td{ border-bottom: none; }
+  td b{ color: var(--ink); font-weight: 620; }
+
+  /* ============ PENDÊNCIAS ============ */
+  .hold-card{
+    background: var(--warn-wash);
+    border: 1px solid var(--warn-edge);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .hold-card h3{ color: var(--warn); }
+  .hold-list{ margin: 0; padding-left: 18px; }
+  .hold-list li{ margin-bottom: 9px; color: var(--ink-2); font-size: 13.5px; }
+  .hold-list li:last-child{ margin-bottom: 0; }
+  .hold-list li b{ color: var(--ink); }
+
+  .foot{
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+    padding-top: 20px;
+    color: var(--ink-4);
+    font-size: 12.5px;
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+</style>
+
+<div class="sheet">
+<div class="wrap">
+
+  <!-- ==================== CABEÇALHO ==================== -->
+  <header class="doc-head">
+    <p class="kicker mono">
+      <svg class="tmark" viewBox="0 0 200 200" aria-hidden="true">
+        <polygon points="34,46 166,46 146,72 54,72" fill="currentColor"/>
+        <polygon points="54,72 97,72 97,178 54,160" fill="currentColor" opacity="0.55"/>
+        <polygon points="103,72 146,72 146,160 103,178" fill="currentColor"/>
+      </svg>
+      Tectus / Landing page / Plano de execução
+    </p>
+    <h1>Estratégia, wireframe e design system</h1>
+    <p class="lede">Plano aprovado e implementado. Ele fixa três coisas: como a página converte sem prova social acumulada, em que ordem as seções entram e por quê, e quais tokens de design o desenvolvimento seguiu. As onze seções estão construídas em Next.js e o build passa com todas as rotas estáticas.</p>
+    <div class="meta-row">
+      <span class="chip mono on">Next.js + TS + Tailwind</span>
+      <span class="chip mono on">CTA primário: WhatsApp</span>
+      <span class="chip mono on">Atuação nacional, remoto</span>
+      <span class="chip mono on">5 clientes liberados</span>
+      <span class="chip mono on">WhatsApp definido</span>
+      <span class="chip mono on">11 seções construídas</span>
+    </div>
+  </header>
+
+  <!-- ==================== 01 ESTRATÉGIA ==================== -->
+  <section class="block">
+    <div class="block-head">
+      <span class="idx">01</span>
+      <h2>Estratégia de conversão</h2>
+      <span class="note">Etapa 3 do processo</span>
+    </div>
+
+    <div class="thesis">
+      <h3>O problema real desta página</h3>
+      <p>A Tectus não tem número, depoimento nem tempo de mercado para exibir. A saída padrão do mercado, encher a página de logo de cliente e métrica inflada, está fechada. Então a confiança precisa vir de outro lugar: <strong>demonstrar método em vez de exibir resultado.</strong> Uma página que mostra critério, processo e clareza de raciocínio vende consultoria melhor do que uma página que promete número.</p>
+      <p>Isso não é contorno de limitação. É coerente com o diferencial já fechado: a Tectus faz diagnóstico antes de desenvolvimento. A página é a primeira demonstração desse método, não um folheto sobre ele.</p>
+    </div>
+
+    <h3 style="margin-top:26px">As cinco objeções que a página precisa derrubar</h3>
+    <p style="margin-bottom:18px">Cada uma tem uma seção responsável por responder. Objeção sem dono na arquitetura é objeção que sobrevive até a hora de fechar.</p>
+
+    <div class="lever-grid">
+      <div class="lever">
+        <span class="obj mono">Nem sei o que eu preciso</span>
+        <p>A objeção mais comum e a mais subestimada. Ele sente o sintoma, não sabe nomear a solução, e por isso não busca por "automação" nem por "integração". <strong>Resolve na seção 03</strong>, que deixa ele se reconhecer por sintoma antes de qualquer nome de produto.</p>
+      </div>
+      <div class="lever">
+        <span class="obj mono">Será que esse cara entrega?</span>
+        <p>Já foi queimado por freelancer que sumiu ou por sistema caro que ninguém usou. <strong>Resolve nas seções 07 e 08</strong>: o case Priorize contado por inteiro, mais quatro clientes com nome.</p>
+      </div>
+      <div class="lever">
+        <span class="obj mono">Quanto isso custa?</span>
+        <p>Não se responde com preço, porque o modelo é consultivo e faixa de valor mata o funil. Responde-se removendo o risco da primeira conversa: <strong>o diagnóstico é a porta acessível e o valor é creditado no projeto</strong>. Aparece na seção 06.</p>
+      </div>
+      <div class="lever">
+        <span class="obj mono">Minha empresa é pequena demais</span>
+        <p>Ele imagina que vai ouvir uma proposta de quarenta mil. <strong>Resolve na seção 04</strong>, com o argumento mais contraintuitivo que a marca tem: às vezes o diagnóstico conclui que a solução certa é bem menor do que o cliente imaginava.</p>
+      </div>
+      <div class="lever">
+        <span class="obj mono">Vou ficar refém do desenvolvedor</span>
+        <p>Medo legítimo de quem depende de sistema feito sob medida. <strong>Resolve na seção 09</strong>, o FAQ, junto com prazo, forma de pagamento e o que acontece depois da entrega.</p>
+      </div>
+      <div class="lever">
+        <span class="obj mono">Depois eu vejo isso</span>
+        <p>A objeção silenciosa, e a que mais custa. Combate-se com fricção baixa no ponto de decisão: <strong>WhatsApp em um toque</strong>, com mensagem já escrita, em vez de formulário no topo.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:34px">Hierarquia de CTA</h3>
+    <p>Dois CTAs na página, com papéis separados e sem competir na mesma dobra. O WhatsApp é o botão sólido em todo o percurso; o formulário só ganha peso visual na seção final, que é o território dele.</p>
+    <div class="tbl-scroll" style="margin-top:14px">
+      <table>
+        <thead>
+          <tr><th>CTA</th><th>Onde</th><th>Para quem</th><th>Por quê</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>WhatsApp</b><br><span style="color:var(--ink-4);font-size:12.5px">primário</span></td>
+            <td>Header, hero, fim das seções 04, 06 e 07</td>
+            <td>Quem já sentiu a dor e quer resolver hoje</td>
+            <td>Menor fricção possível. Mensagem pré-preenchida indica de que seção ele veio, o que já qualifica o lead antes da primeira resposta. Número definido: (92) 99183-7630</td>
+          </tr>
+          <tr>
+            <td><b>Formulário</b><br><span style="color:var(--ink-4);font-size:12.5px">secundário</span></td>
+            <td>Seção 10, antes do rodapé</td>
+            <td>Quem leu tudo, prefere escrever, ou consulta fora do horário</td>
+            <td>Captura o lead mais qualificado da página: ele descreve o gargalo por escrito, o que já é meio diagnóstico feito</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== 02 WIREFRAME ==================== -->
+  <section class="block">
+    <div class="block-head">
+      <span class="idx">02</span>
+      <h2>Wireframe e arquitetura</h2>
+      <span class="note">Etapas 7 e 8 · 11 seções</span>
+    </div>
+    <p style="margin-bottom:22px">A ordem é argumentativa, não decorativa: sintoma antes de solução, método antes de portfólio, prova antes do pedido. As linhas de copy abaixo são <strong>direção, não texto final</strong>. A redação passa pela skill <code>persuasao</code> depois da sua aprovação.</p>
+
+    <div class="wf-list">
+
+      <!-- 01 header -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="row-flex">
+            <div class="bar t" style="width:34px"></div>
+            <div class="spacer"></div>
+            <div class="bar s" style="width:22px"></div>
+            <div class="bar s" style="width:22px"></div>
+            <div class="bar s" style="width:22px"></div>
+            <div class="btn-ghost" style="width:44px;height:13px"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">01</span><span class="nm">Header fixo</span><span class="tagcta">WhatsApp</span></div>
+          <p>Logo, âncoras para pilares, método e cases, e o botão sólido. Encolhe no scroll para não roubar altura da leitura no mobile.</p>
+        </div>
+      </article>
+
+      <!-- 02 hero -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:44%"></div>
+          <div class="bar t" style="width:92%"></div>
+          <div class="bar t" style="width:70%"></div>
+          <div class="bar" style="width:84%;margin-top:3px"></div>
+          <div class="bar" style="width:60%"></div>
+          <div class="row-flex" style="margin-top:6px">
+            <div class="btn-ghost"></div>
+            <div class="btn-line"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">02</span><span class="nm">Hero</span><span class="tagcta">WhatsApp</span></div>
+          <p>A tese da página. O H1 fala do leitor, não da Tectus, porque headline sobre a própria empresa não converte quem ainda não sabe se tem o problema. O slogan da marca entra como apoio abaixo, não como título.</p>
+          <div class="draft"><b>Direção de H1:</b> nomear o custo do processo manual em uma frase que o dono reconheça como a rotina dele. O slogan fechado, "Tecnologia que impulsiona. Automação que transforma.", vira linha de apoio.</div>
+        </div>
+      </article>
+
+      <!-- 03 sintomas -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:38%"></div>
+          <div class="bar t" style="width:66%;margin-bottom:4px"></div>
+          <div class="cols c2">
+            <div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">03</span><span class="nm">Sintomas</span></div>
+          <p>A seção que resolve a objeção principal. Em vez de listar serviços, lista situações do dia a dia para o leitor se reconhecer: fechar o mês no domingo, refazer no sistema o que já foi digitado no WhatsApp, ser o gargalo de toda decisão. Cada sintoma aponta para o pilar correspondente.</p>
+          <p style="color:var(--ink-3)">Sem esta seção, a página começa vendendo solução para quem ainda não admitiu o problema, e o resto da leitura não acontece.</p>
+        </div>
+      </article>
+
+      <!-- 04 método -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="cols c2" style="gap:10px">
+            <div>
+              <div class="bar s" style="width:60%;margin-bottom:5px"></div>
+              <div class="bar t" style="width:88%;margin-bottom:5px"></div>
+              <div class="bar" style="width:96%"></div>
+              <div class="bar" style="width:72%;margin-top:4px"></div>
+            </div>
+            <div class="cell tall accent" style="height:64px"></div>
+          </div>
+          <div class="btn-ghost" style="margin-top:6px"></div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">04</span><span class="nm">Método e diferencial</span><span class="tagcta">WhatsApp</span></div>
+          <p>"Primeiro entendemos. Depois construímos." O coração da página, porque é aqui que a confiança é construída sem prova social. Inclui o argumento contraintuitivo que derruba a objeção do porte: a Tectus recomenda a solução menor quando ela basta, e às vezes o diagnóstico conclui que não precisa de sistema nenhum.</p>
+          <div class="draft"><b>Teste que esta seção precisa passar:</b> trocar "Tectus" por qualquer software house. Se a frase continuar verdadeira, ela ainda é genérica e volta para reescrita.</div>
+        </div>
+      </article>
+
+      <!-- 05 pilares -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:34%"></div>
+          <div class="bar t" style="width:56%;margin-bottom:4px"></div>
+          <div class="cols c3">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">05</span><span class="nm">Os seis pilares</span></div>
+          <p>Grade de seis. Cada card abre pelo problema que resolve, não pelo nome do pilar, e fecha com a tag qualitativa de contratação (pacote fechado, orçamento sob escopo). Sem valor em reais, conforme decidido.</p>
+          <p style="color:var(--ink-3)">Consultoria Tecnológica recebe destaque visual diferente dos outros cinco: ela é a porta de entrada do funil, não um serviço equivalente aos demais.</p>
+        </div>
+      </article>
+
+      <!-- 06 como funciona -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:40%;margin-bottom:4px"></div>
+          <div class="row-flex" style="gap:4px">
+            <div class="cell" style="flex:1;height:34px"></div>
+            <div class="cell" style="flex:1;height:34px"></div>
+            <div class="cell" style="flex:1;height:34px"></div>
+            <div class="cell accent" style="flex:1;height:34px"></div>
+          </div>
+          <div class="btn-ghost" style="margin-top:6px"></div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">06</span><span class="nm">Como funciona</span><span class="tagcta">WhatsApp</span></div>
+          <p>A escada de valor em quatro passos: diagnóstico, proposta, construção, entrega e evolução. Aqui é onde entra a resposta à objeção de preço, sem citar preço: o diagnóstico é a entrada acessível e <strong>o valor dele é creditado no projeto</strong>, o que remove o risco de "pagar para ouvir um orçamento".</p>
+        </div>
+      </article>
+
+      <!-- 07 case -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:30%"></div>
+          <div class="bar t" style="width:74%;margin-bottom:5px"></div>
+          <div class="row-flex" style="gap:4px;margin-bottom:5px">
+            <div class="cell accent" style="flex:1;height:20px"></div>
+            <div class="cell accent" style="flex:1;height:20px"></div>
+            <div class="cell accent" style="flex:1;height:20px"></div>
+          </div>
+          <div class="bar" style="width:90%"></div>
+          <div class="bar" style="width:64%"></div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">07</span><span class="nm">Case Priorize</span><span class="tagcta">WhatsApp</span></div>
+          <p>A prova mais forte disponível, e a única história contada por inteiro. Não porque é o maior projeto, mas porque é o único que percorre a escada completa: começou por diagnóstico de riscos psicossociais, virou landing entregue, e hoje tem sistema em fase 2. O case não prova que a Tectus programa. Prova que <strong>o método funciona</strong>, que é a tese da página.</p>
+          <div class="draft"><b>Restrição:</b> sem aspas que o cliente não disse, sem percentual que ninguém mediu. A sequência dos fatos é o argumento.</div>
+        </div>
+      </article>
+
+      <!-- 08 projetos -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:32%;margin-bottom:4px"></div>
+          <div class="cols c2">
+            <div class="cell tall"></div><div class="cell tall"></div>
+            <div class="cell tall"></div><div class="cell tall"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">08</span><span class="nm">Outros projetos</span></div>
+          <p>Quatro clientes com nome: Patinhas de Ouro, Mariah Seguros, Paladar Gaúcho e Advocacia Pontes &amp; Rocha. Cada card traz nome, tipo de solução e o problema resolvido. Mostra amplitude de segmento, que é o que sustenta a promessa de atender qualquer operação.</p>
+          <p style="color:var(--ink-3)">Projetos não autorizados (PetShop SaaS, Barbearia SaaS e os demais) podem aparecer só como tipo, sem nome, se a grade precisar de volume.</p>
+        </div>
+      </article>
+
+      <!-- 09 faq -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar s" style="width:26%;margin-bottom:4px"></div>
+          <div class="bar" style="width:100%"></div>
+          <div class="bar" style="width:100%"></div>
+          <div class="bar" style="width:100%"></div>
+          <div class="bar" style="width:100%"></div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">09</span><span class="nm">FAQ</span></div>
+          <p>Último filtro de objeção antes do pedido. Cobre prazo, forma de pagamento, o que acontece depois da entrega, e a pergunta que ninguém faz em voz alta: se o cliente fica preso ao desenvolvedor. Vira structured data <code>FAQPage</code> na frente de SEO.</p>
+        </div>
+      </article>
+
+      <!-- 10 cta -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="bar t" style="width:78%"></div>
+          <div class="bar" style="width:56%;margin-bottom:5px"></div>
+          <div class="cell" style="height:16px"></div>
+          <div class="cell" style="height:16px"></div>
+          <div class="cell" style="height:26px"></div>
+          <div class="btn-ghost" style="width:100%;margin-top:4px"></div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">10</span><span class="nm">CTA final e formulário</span><span class="tagcta">Formulário</span></div>
+          <p>O território do CTA secundário. Formulário curto: nome, empresa, e um campo aberto para descrever o gargalo. Três campos, não oito. Cada campo a mais derruba conversão, e o que não for perguntado aqui se descobre no diagnóstico, que é justamente o serviço sendo vendido.</p>
+        </div>
+      </article>
+
+      <!-- 11 footer -->
+      <article class="wf-row">
+        <div class="wf-canvas">
+          <div class="row-flex" style="align-items:flex-start;gap:10px">
+            <div style="flex:1">
+              <div class="bar t" style="width:40px;margin-bottom:4px"></div>
+              <div class="bar s" style="width:80%"></div>
+            </div>
+            <div style="flex:1">
+              <div class="bar s" style="width:70%;margin-bottom:3px"></div>
+              <div class="bar s" style="width:60%;margin-bottom:3px"></div>
+              <div class="bar s" style="width:66%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <div class="wf-title"><span class="n">11</span><span class="nm">Rodapé</span></div>
+          <p>Razão social, âncoras, contato e política de privacidade. Sem nome do fundador, conforme a diretriz de exposição pessoal já fechada.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ==================== 03 DESIGN SYSTEM ==================== -->
+  <section class="block">
+    <div class="block-head">
+      <span class="idx">03</span>
+      <h2>Design system</h2>
+      <span class="note">Etapa 10 · vira tokens no Tailwind</span>
+    </div>
+
+    <div class="ds-grid">
+
+      <div class="panel">
+        <h3>Cores <span class="mono">tokens</span></h3>
+        <div class="swatches">
+          <div class="sw">
+            <span class="dot" style="background:#0E7C86"></span>
+            <span><span class="nm">Azul-petróleo</span><span class="use">Acento único. CTA, links, eyebrow, destaque</span></span>
+            <span class="hx">#0E7C86</span>
+          </div>
+          <div class="sw">
+            <span class="dot" style="background:#111827"></span>
+            <span><span class="nm">Grafite</span><span class="use">Texto principal e fundo das seções escuras</span></span>
+            <span class="hx">#111827</span>
+          </div>
+          <div class="sw">
+            <span class="dot" style="background:#374151"></span>
+            <span><span class="nm">Cinza-chumbo</span><span class="use">Corpo de texto secundário</span></span>
+            <span class="hx">#374151</span>
+          </div>
+          <div class="sw">
+            <span class="dot" style="background:#9CA3AF"></span>
+            <span><span class="nm">Cinza</span><span class="use">Legenda, borda, estado desabilitado</span></span>
+            <span class="hx">#9CA3AF</span>
+          </div>
+          <div class="sw">
+            <span class="dot" style="background:#F8FAFC"></span>
+            <span><span class="nm">Branco</span><span class="use">Fundo padrão da página</span></span>
+            <span class="hx">#F8FAFC</span>
+          </div>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-top:14px;margin-bottom:0">Um acento só, conforme o briefing. Se algo precisar de destaque e não for CTA, resolve com peso tipográfico ou espaço, nunca com uma segunda cor.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Tipografia <span class="mono">Inter</span></h3>
+        <div class="type-row"><span class="lbl">Eyebrow</span><span class="t-eye">Automação</span><span class="spec">12 / 600 / +0.1em</span></div>
+        <div class="type-row"><span class="lbl">H1</span><span class="t-h1">Hero</span><span class="spec">48 – 64 / 800</span></div>
+        <div class="type-row"><span class="lbl">H2</span><span class="t-h2">Seção</span><span class="spec">32 – 40 / 700</span></div>
+        <div class="type-row"><span class="lbl">H3</span><span class="t-h3">Card</span><span class="spec">18 – 20 / 650</span></div>
+        <div class="type-row"><span class="lbl">Corpo</span><span class="t-body">Texto de leitura</span><span class="spec">16 – 17 / 400</span></div>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-top:12px;margin-bottom:0">Uma família só, pesos fazendo a hierarquia. Títulos com <code>tracking</code> negativo e <code>text-balance</code>; corpo entre 60 e 70 caracteres por linha.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Espaçamento e grid <span class="mono">base 4</span></h3>
+        <div class="scale-strip">
+          <div style="height:16px">4</div>
+          <div style="height:24px">8</div>
+          <div style="height:34px">16</div>
+          <div style="height:46px">24</div>
+          <div style="height:58px">32</div>
+          <div style="height:70px">48</div>
+          <div style="height:82px">64</div>
+        </div>
+        <p style="font-size:13px;margin-top:16px">Container em 1200px, respiro lateral de 24px no mobile. Seções com 96px de respiro vertical no desktop e 64px no mobile. Grade de 12 colunas, cards de pilar em 3 colunas no desktop, 2 no tablet, 1 no mobile.</p>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:0">Espaço em branco é o principal recurso estético aqui. É ele que separa consultoria premium de agência genérica, e custa zero em performance.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Componentes <span class="mono">raio 8px</span></h3>
+        <div class="btn-demo" style="margin-bottom:14px">
+          <span class="b b-primary">Falar no WhatsApp</span>
+          <span class="b b-secondary">Ver os pilares</span>
+          <span class="b b-ghost">Saiba mais</span>
+        </div>
+        <p style="font-size:13px">Primário sólido em azul-petróleo, exclusivo do WhatsApp e do envio do formulário. Secundário com borda, para navegação interna. Ghost para link de apoio.</p>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:0">Raio de 8px em botão e card, 6px em input. Sombra sutil e apenas em card elevado. Ícones Lucide em 20px, traço 1.5. Sem emoji em nenhuma hipótese.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Movimento <span class="mono">discreto</span></h3>
+        <p style="font-size:13px">Entrada de seção com fade e deslocamento de 12px, disparada por <code>IntersectionObserver</code>, uma vez só. Hover de card eleva 2px. Transições em 180ms com <code>ease-out</code>.</p>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:0">Nada de parallax, contador animado ou elemento que entra da lateral. Excesso de animação é justamente o que faz uma página parecer template, e é o oposto da referência Linear e Stripe. <code>prefers-reduced-motion</code> desliga tudo.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Acessibilidade <span class="mono">WCAG AA</span></h3>
+        <p style="font-size:13px">Contraste medido na implementação, todos acima do mínimo AA de 4.5:1. Azul-petróleo sobre papel: <strong>4.73</strong>. Chumbo sobre papel: 9.85. Petróleo claro sobre grafite: 7.05. Cinza sobre grafite: 6.99. Branco sobre o botão petróleo: 4.95.</p>
+        <p style="font-size:12.5px;color:var(--ink-3);margin-bottom:0">Foco visível em tudo que recebe teclado, com anel de 2px no acento. Formulário com <code>label</code> real, erro descrito em texto e não só por cor.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 04 PLANO TÉCNICO ==================== -->
+  <section class="block">
+    <div class="block-head">
+      <span class="idx">04</span>
+      <h2>Plano técnico</h2>
+      <span class="note">Etapa 11</span>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr><th>Frente</th><th>Decisão</th><th>Motivo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Stack</b></td><td>Next.js, TypeScript, Tailwind, Lucide</td><td>App Router com página estática. Componentização real e SEO nativo sem custo de runtime</td></tr>
+          <tr><td><b>Conteúdo</b></td><td>Dados em <code>src/lib/</code>, JSX só apresenta</td><td>Copy, pilares e FAQ ficam em um lugar só. As skills de texto editam dados sem tocar em layout</td></tr>
+          <tr><td><b>Formulário</b></td><td>React Hook Form e Zod, envio por rota de API</td><td>Validação no cliente e no servidor. Sem dependência de serviço externo de formulário</td></tr>
+          <tr><td><b>Animação</b></td><td>CSS e <code>IntersectionObserver</code></td><td>Framer Motion não se justifica para fade e deslocamento. Menos JavaScript é mais Core Web Vitals</td></tr>
+          <tr><td><b>Fontes</b></td><td><code>next/font</code> com Inter self-hosted</td><td>Elimina requisição ao Google Fonts e o deslocamento de layout no carregamento</td></tr>
+          <tr><td><b>Logo</b></td><td>SVG inline reconstruído do monograma</td><td>O arquivo escolhido é mockup em PNG, não logo isolado. SVG escala, troca de cor por tema e não pesa</td></tr>
+          <tr><td><b>Analytics</b></td><td>GA4 preparado e desligado</td><td>Estrutura pronta para quando houver tráfego. Sem script carregando à toa no lançamento</td></tr>
+          <tr><td><b>Hospedagem</b></td><td>Vercel, domínio apontado depois</td><td>Deploy nativo do Next. Domínio entra quando o registro.br confirmar</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== 05 PENDÊNCIAS ==================== -->
+  <section class="block" style="margin-bottom:0">
+    <div class="block-head">
+      <span class="idx">05</span>
+      <h2>Pendências</h2>
+      <span class="note">Bloqueiam publicação, não desenvolvimento</span>
+    </div>
+    <div class="hold-card">
+      <h3>O que falta antes de o site ir ao ar</h3>
+      <ul class="hold-list">
+        <li><b>E-mail comercial.</b> Destino do formulário da seção 10. Até existir, o formulário fica desligado e a seção 10 aponta para o WhatsApp.</li>
+        <li><b>Aval de Priorize e Advocacia Pontes &amp; Rocha.</b> As duas atuam em área regulada e costumam ter política própria sobre uso de marca. Um "posso te colocar no portfólio?" resolve.</li>
+        <li><b>Domínio.</b> <code>tectussolucoes.com.br</code> aguardando confirmação no registro.br.</li>
+        <li><b>Vetor do logo.</b> O site não depende mais disso: o monograma foi reconstruído em SVG e é a fonte dos ícones e da imagem de compartilhamento. Ainda vale ter o vetor original para papelaria e proposta comercial.</li>
+      </ul>
+    </div>
+
+    <div class="foot">
+      <span>Tectus Soluções Digitais · Plano da landing page</span>
+      <span class="mono">Implementado · aguardando conteúdo final</span>
+    </div>
+  </section>
+
+</div>
+</div>

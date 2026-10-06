@@ -55,22 +55,34 @@ import { whatsappLink } from "@/lib/site";
  */
 
 /**
- * Um ícone por sintoma, na ordem de `SINTOMAS`.
+ * Um ícone por sintoma, pela chave `id` de `SINTOMAS`.
  * Fica aqui, e não em `conteudo.ts`, porque ícone é apresentação: as skills
  * de texto precisam poder reescrever a lista sem esbarrar em componente.
  */
-const ICONES: readonly LucideIcon[] = [
-  Copy,
-  CalendarClock,
-  Repeat,
-  Table2,
-  MessagesSquare,
-  Search,
-  Compass,
-];
+const ICONES: Record<string, LucideIcon> = {
+  redigitar: Copy,
+  fechamento: CalendarClock,
+  "tarefa-manual": Repeat,
+  planilhas: Table2,
+  atendimento: MessagesSquare,
+  presenca: Search,
+  "por-onde-comecar": Compass,
+};
 
-export function Sintomas() {
+type SintomasProps = {
+  /**
+   * Quais sintomas mostrar, pela chave. Sem a lista, a home mostra todos.
+   * As rotas de oferta filtram pela dor daquele anúncio (ver `ofertas.ts`).
+   */
+  ids?: readonly string[];
+  /** Primeira linha da mensagem do WhatsApp: diz de qual página o lead veio. */
+  origem?: string;
+};
+
+export function Sintomas({ ids, origem = "Olá! Vim pelo site da Tectus." }: SintomasProps) {
   const [marcados, setMarcados] = useState<readonly string[]>([]);
+
+  const lista = ids ? SINTOMAS.filter((sintoma) => ids.includes(sintoma.id)) : SINTOMAS;
 
   function alternar(texto: string) {
     setMarcados((atual) =>
@@ -83,13 +95,13 @@ export function Sintomas() {
   const fecho = total === 1 ? SINTOMAS_TITULO.fechoUm : SINTOMAS_TITULO.fecho;
 
   const mensagem = [
-    "Olá! Vim pelo site da Tectus.",
+    origem,
     "",
     "No diagnóstico rápido, marquei o que acontece na minha empresa:",
     // O nome da frente que resolve cada sintoma saiu da tela e vive aqui:
     // qualifica o lead antes da primeira resposta e não custa uma linha de
     // leitura para quem só quer se reconhecer nas cenas.
-    ...SINTOMAS.filter((sintoma) => marcados.includes(sintoma.texto)).map(
+    ...lista.filter((sintoma) => marcados.includes(sintoma.texto)).map(
       (sintoma) => `- ${sintoma.naPrimeiraPessoa} (${sintoma.resolvePor})`,
     ),
     "",
@@ -111,7 +123,7 @@ export function Sintomas() {
 
         <div className="mt-4 overflow-hidden rounded-2xl border border-cinza-linha bg-white elevacao-1">
           <ul>
-            {SINTOMAS.map((sintoma, indice) => {
+            {lista.map((sintoma) => {
               const marcado = marcados.includes(sintoma.texto);
 
               return (
@@ -124,7 +136,7 @@ export function Sintomas() {
                       marcado ? "bg-petroleo/[0.045]" : "hover:bg-cinza-fundo/60"
                     }`}
                   >
-                    <Icone icone={ICONES[indice]} tamanho="sm" />
+                    <Icone icone={ICONES[sintoma.id] ?? Compass} tamanho="sm" />
 
                     <span className="min-w-0 flex-1 text-[1rem] font-medium leading-snug text-grafite">
                       {sintoma.texto}

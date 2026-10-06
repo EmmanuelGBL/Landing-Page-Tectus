@@ -157,7 +157,7 @@ export function CaseAncora() {
             className="shrink-0"
           >
             <IconeWhatsApp className="h-4 w-4" />
-            Quero esse tipo de conversa
+            {CASE_ANCORA.cta}
           </BotaoLink>
         </div>
       </Container>

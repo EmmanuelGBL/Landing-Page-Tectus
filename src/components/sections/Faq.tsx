@@ -1,13 +1,14 @@
 import { Plus } from "lucide-react";
 import { Container, Section, TituloSecao } from "@/components/ui/Section";
-import { FAQ, FAQ_TITULO } from "@/lib/conteudo";
+import { FAQ, FAQ_TITULO, type FaqItem } from "@/lib/conteudo";
 
 /**
  * Último filtro de objeção antes do pedido.
  * Usa <details> nativo: acessível por teclado e por leitor de tela sem uma
  * linha de JavaScript, e funciona mesmo se o JS falhar.
  */
-export function Faq() {
+/** As rotas de oferta passam as perguntas delas antes das compartilhadas. */
+export function Faq({ itens = FAQ }: { itens?: readonly FaqItem[] }) {
   return (
     <Section id="faq">
       <Container>
@@ -19,7 +20,7 @@ export function Faq() {
           />
 
           <div className="divide-y divide-cinza-linha border-y border-cinza-linha">
-            {FAQ.map((item) => (
+            {itens.map((item) => (
               <details key={item.pergunta} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-5 text-[1.02rem] font-medium leading-snug text-grafite transition-colors marker:content-none hover:text-petroleo-escuro group-open:text-petroleo-escuro">
                   {item.pergunta}

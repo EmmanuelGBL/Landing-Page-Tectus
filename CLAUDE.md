@@ -704,6 +704,9 @@ Consequência prática para você: toda seção que a estrutura recomendada cham
   escreve número, e-mail ou URL direto no JSX.
 * `src/lib/conteudo.ts`: todo o texto editorial (sintomas, pilares, processo, case, projetos, FAQ).
   É aqui que as skills `persuasao` e `revisao-textual` trabalham, sem tocar em layout.
+* `src/lib/ofertas.ts`: copy das rotas de oferta (hoje só `/automacao`). Montadas por
+  `src/components/PaginaOferta.tsx`, sem a seção de pilares e com header sem menu. Ver
+  `docs/plano-rotas-de-oferta.md`.
 * `src/lib/marca.ts`: geometria do monograma. Fonte única para o componente `Logo`, para a imagem
   de Open Graph e para o gerador de ícones. O script `scripts/gerar-icones.mjs` é Node puro e não
   importa TypeScript, então repete os valores: ao mexer num, mexer no outro.
@@ -1040,6 +1043,21 @@ fosse grafite. Refeito com composição de alfa de verdade, subindo a árvore e 
 sobre a anterior, e convertendo cor via canvas para dar conta de `oklab()`: **zero reprovações em
 174 nós de texto**. Quem for medir contraste aqui de novo precisa compor alfa, ou vai "descobrir"
 os mesmos 16 falsos positivos.
+
+## Rodada de 06/10/2026: funil na página, ordem nova e `/automacao`
+
+* **O funil de entrada entrou na página.** CTAs vendem a conversa gratuita de 30 a 40 minutos, com a
+  nota do que acontece depois do clique. "Como funciona" virou Conversa, Diagnóstico (R$ 500 fixos,
+  abatidos, com devolução), Proposta, Construção e entrega. O R$ 500 aparece só ali e nas duas
+  respostas de preço do FAQ, nunca no hero.
+* **Ordem da home:** o case da Priorize subiu para logo depois do Método, e os pilares desceram
+  para depois do "Como funciona", reenquadrados como "O que pode sair do diagnóstico". Motivo: a
+  prova chegava na oitava seção, e a vitrine de seis serviços desfazia o "você não precisa saber o
+  que comprar". A faixa de logos abaixo do hero **não voltou**, mesmo sugerida de novo: a primeira
+  dobra continua com um assunto só.
+* **`/automacao`** construída. Ver `src/lib/ofertas.ts` e `docs/plano-rotas-de-oferta.md`.
+* Duas análises do ChatGPT foram lidas como insumo. Entrou o que tinha lastro e cabia nas regras;
+  ficaram de fora o "a partir de R$ 500" (o preço é fixo), o slogan como título e as seções extras.
 
 ## Contraste: uma correção que desmentiu a documentação
 

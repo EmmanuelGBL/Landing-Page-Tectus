@@ -1,6 +1,20 @@
 # Plano: rotas de oferta
 
-Decidido em 03/09/2026, **não construído.** O Emmanuel pediu para anotar sem executar.
+Decidido em 03/09/2026. **`/automacao` construída em 06/10/2026**, ainda não publicada.
+`/agente-whatsapp` continua esperando o agente rodar na própria Tectus. `/sistemas` não tem verba.
+
+### Como ficou no código (06/10/2026)
+
+- `src/lib/ofertas.ts`: a copy de cada oferta (hero, sintomas filtrados por `id`, perguntas
+  próprias, origem da mensagem do WhatsApp). É texto editorial, as skills de texto trabalham nele.
+- `src/components/PaginaOferta.tsx`: monta a página com as seções da home, menos `Pilares`.
+- `src/app/automacao/page.tsx`: a rota, com metadados próprios. **Pasta fixa em vez de
+  `[oferta]` dinâmico**, desvio consciente da estrutura sugerida abaixo: com export estático e uma
+  oferta no ar, a rota fixa é mais simples e cada página declara o próprio `openGraph`.
+- Header **sem menu** na rota de oferta (uma ação só a tomar). Rodapé com a navegação apontando
+  para a home.
+- Entrou no `sitemap.ts`. Canonical próprio. `og:image` declarada à mão, porque redeclarar
+  `openGraph` derruba a imagem herdada do layout.
 
 Decisão e motivo em `Marca/05-Historico-e-Decisoes.md`, seção "Rotas de oferta na landing".
 

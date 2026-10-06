@@ -81,19 +81,23 @@ export function whatsappLink(message: string): string {
 /** Mensagens por ponto de saída da página. */
 export const WHATSAPP_MESSAGES = {
   header: "Olá! Vim pelo site da Tectus e queria entender melhor como funciona.",
-  hero: "Olá! Vim pelo site da Tectus. Minha empresa tem um processo travando e queria conversar sobre isso.",
+  hero: "Olá! Vim pelo site da Tectus. Minha empresa tem um processo travando e queria marcar uma conversa sobre isso.",
   metodo:
     "Olá! Li sobre o diagnóstico no site da Tectus e queria entender como funciona na prática.",
-  processo: "Olá! Queria começar pelo diagnóstico. Como faço?",
-  cases: "Olá! Vi os projetos no site da Tectus e queria conversar sobre o meu caso.",
+  // Pedia o diagnóstico, que é a etapa paga. O botão agora oferece a
+  // conversa gratuita, e a mensagem precisa pedir a mesma coisa.
+  processo: "Olá! Vim pelo site da Tectus e queria marcar a primeira conversa. Como funciona?",
+  cases: "Olá! Vi o caso da Priorize no site da Tectus e queria conversar sobre a minha operação.",
   formularioFallback: "Olá! Vim pelo site da Tectus.",
 } as const;
 
-export const NAV_LINKS = [
+export type LinkNavegacao = { href: string; label: string };
+
+export const NAV_LINKS: readonly LinkNavegacao[] = [
   { href: "#sintomas", label: "Sintomas" },
   { href: "#metodo", label: "Método" },
-  { href: "#solucoes", label: "Soluções" },
   { href: "#processo", label: "Como funciona" },
+  { href: "#solucoes", label: "Soluções" },
   { href: "#projetos", label: "Clientes" },
   { href: "#faq", label: "Dúvidas" },
 ] as const;

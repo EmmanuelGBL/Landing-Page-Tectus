@@ -16,7 +16,17 @@
  * sintoma, consequência, ponte: lista o que ele reconhece, nomeia o que
  * isso custa, e só então diz o que a Tectus faz de diferente.
  */
-export const HERO = {
+export type ConteudoHero = {
+  /** Só nas rotas de oferta: nomeia o que a pessoa buscou. */
+  eyebrow?: string;
+  titulo: { linha1: string; linha2: string };
+  subtitulo: string;
+  ctaPrimario: string;
+  ctaNota: string;
+  ctaSecundario: string;
+};
+
+export const HERO: ConteudoHero = {
   /**
    * Duas linhas separadas porque a segunda recebe tratamento visual próprio
    * no hero. A quebra é informação: a virada da frase está entre elas.
@@ -47,9 +57,18 @@ export const HERO = {
    */
   subtitulo:
     "Retrabalho não aparece no balanço, mas sai da sua margem todo mês. A Tectus começa descobrindo onde a operação trava, antes de propor qualquer sistema.",
-  ctaPrimario: "Quero falar no WhatsApp",
+  /**
+   * "Quero falar no WhatsApp" nomeava o canal e não o que acontece nele. O
+   * visitante não sabia se ia receber orçamento, abordagem de venda ou uma
+   * conversa. O rótulo agora diz a ação, e a nota abaixo diz o que ela custa
+   * em tempo e dinheiro, com os dois fatos do funil de entrada
+   * (`Marca/06-Funil-de-Entrada.md`). O R$ 500 do diagnóstico não entra aqui:
+   * no topo da página "pague" converte muito pior que "converse".
+   */
+  ctaPrimario: "Quero marcar uma conversa",
+  ctaNota: "Pelo WhatsApp. A primeira conversa leva de 30 a 40 minutos e não tem custo.",
   ctaSecundario: "Entender o método",
-} as const;
+};
 
 /* ------------------------------------------------------------------ */
 /* 02b · Compromissos                                                  */
@@ -147,6 +166,12 @@ export const LOGOS = {
 /* ------------------------------------------------------------------ */
 
 export type Sintoma = {
+  /**
+   * Chave estável do sintoma. As rotas de oferta escolhem quais sintomas
+   * mostram por ela, e o componente mapeia o ícone por ela, para que reordenar
+   * ou reescrever a lista não troque ícone nem quebre filtro.
+   */
+  id: string;
   texto: string;
   /**
    * O mesmo sintoma na voz de quem envia a mensagem.
@@ -194,26 +219,31 @@ export const SINTOMAS_TITULO = {
 
 export const SINTOMAS: readonly Sintoma[] = [
   {
+    id: "redigitar",
     texto: "Você refaz no sistema o que a equipe já digitou no WhatsApp.",
     naPrimeiraPessoa: "Refaço no sistema o que a equipe já digitou no WhatsApp.",
     resolvePor: "Integrações",
   },
   {
+    id: "fechamento",
     texto: "Fechar o mês consome um fim de semana inteiro.",
     naPrimeiraPessoa: "Fechar o mês consome um fim de semana inteiro.",
     resolvePor: "Dados e Inteligência",
   },
   {
+    id: "tarefa-manual",
     texto: "A mesma tarefa é feita à mão toda semana, e ninguém questiona mais.",
     naPrimeiraPessoa: "A mesma tarefa é feita à mão toda semana, e ninguém questiona mais.",
     resolvePor: "Automação de Processos",
   },
   {
+    id: "planilhas",
     texto: "A planilha que controlava tudo virou três planilhas em que ninguém confia.",
     naPrimeiraPessoa: "A planilha que controlava tudo virou três planilhas em que ninguém confia.",
     resolvePor: "Sistemas Sob Medida",
   },
   {
+    id: "atendimento",
     /**
      * A cena de atendimento, acrescentada em 31/08/2026.
      *
@@ -234,12 +264,14 @@ export const SINTOMAS: readonly Sintoma[] = [
     resolvePor: "Automação de Processos, com IA no atendimento",
   },
   {
+    id: "presenca",
     texto: "Um cliente pesquisa sua empresa antes de fechar e não encontra nada que passe confiança.",
     naPrimeiraPessoa:
       "Um cliente pesquisa minha empresa antes de fechar e não encontra nada que passe confiança.",
     resolvePor: "Presença Digital",
   },
   {
+    id: "por-onde-comecar",
     texto: "Você sabe que precisa mudar alguma coisa, mas não sabe por onde começar.",
     naPrimeiraPessoa: "Sei que preciso mudar alguma coisa, mas não sei por onde começar.",
     resolvePor: "Consultoria Tecnológica",
@@ -310,10 +342,19 @@ export type Pilar = {
  * levou `PROJETOS_TITULO` e `CTA_FINAL` para cá.
  */
 export const PILARES_TITULO = {
-  eyebrow: "O que construímos",
-  titulo: "Seis frentes, um critério: resolver o gargalo certo.",
+  /**
+   * Reenquadrada em 06/10/2026. Como vitrine ("O que construímos"), a seção
+   * desfazia o que a página inteira ensina: depois de ouvir que não precisa
+   * saber o que comprar, o visitante recebia seis coisas para escolher.
+   * Agora ela mostra o que pode sair do diagnóstico, e vem depois do "Como
+   * funciona", onde o diagnóstico já foi explicado. O título antigo também
+   * caía no colon-drop ("Seis frentes, um critério: ..."), vetado pela regra 2
+   * de escrita.
+   */
+  eyebrow: "O que pode sair do diagnóstico",
+  titulo: "Seis caminhos possíveis. O diagnóstico aponta o seu.",
   subtitulo:
-    "Você não precisa saber qual delas contratar. Essa é justamente a conclusão do diagnóstico.",
+    "Você não precisa escolher antes de conversar. Pode ser uma frente só, e menor do que você imaginava.",
 } as const;
 
 export const PILARES: readonly Pilar[] = [
@@ -398,33 +439,53 @@ export const PROCESSO_TITULO = {
  * Fecho da seção. Estava chumbado no JSX do componente, com 39 palavras.
  * Veio para cá e caiu para 21: as orações de ligação ("na prática", "e o que
  * você paga nele") não carregavam argumento nenhum.
+ *
+ * Até 06/10/2026 dizia "O diagnóstico é a porta de entrada" e o botão era
+ * "Começar pelo diagnóstico". O funil fechado em 03/09/2026 mudou a porta: a
+ * entrada é a conversa gratuita, e o diagnóstico (pago) é oferecido nela. O
+ * botão antigo pedia, sem dizer, a etapa que custa dinheiro. "Dizer com
+ * franqueza se dá para ajudar" é o que a conversa entrega, segundo o funil.
  */
 export const PROCESSO_FECHO = {
-  destaque: "O diagnóstico é a porta de entrada.",
-  texto: "Valor acessível e creditado no projeto. Você descobre o que precisa antes de se comprometer.",
-  cta: "Começar pelo diagnóstico",
+  destaque: "O primeiro passo não custa nada.",
+  texto: "Você sai da conversa com uma leitura inicial do problema e sabendo se faz sentido seguir.",
+  cta: "Marcar a primeira conversa",
 } as const;
 
+/**
+ * Reescrito em 06/10/2026 para mostrar o funil de entrada inteiro
+ * (`Marca/06-Funil-de-Entrada.md`). Antes a etapa 01 era o diagnóstico, e a
+ * conversa gratuita, que é a porta de verdade, não aparecia em lugar nenhum.
+ * O visitante via "diagnóstico" sem preço e concluía o pior.
+ *
+ * Esta é a única seção da página com o R$ 500 (além das duas respostas de
+ * preço do FAQ), de propósito: aqui o preço chega depois da conversa grátis, já
+ * com o abatimento e a devolução ao lado, e lê como etapa da jornada em vez
+ * de taxa de entrada. No hero ele espantaria quem ainda não confia.
+ *
+ * Quatro etapas e não cinco: o layout é uma linha do tempo de quatro colunas,
+ * e "Construção" e "Entrega" sempre andaram juntas no texto.
+ */
 export const PROCESSO: readonly Etapa[] = [
   {
     numero: "01",
-    titulo: "Diagnóstico",
-    descricao: "A operação como ela é hoje, não como deveria ser. Sai daqui o mapa do que trava e do que resolver primeiro.",
+    titulo: "Conversa",
+    descricao: "De 30 a 40 minutos, sem custo. Entendemos o problema e dizemos com franqueza se dá para ajudar.",
   },
   {
     numero: "02",
-    titulo: "Proposta",
-    descricao: "Escopo e valor fechados antes da primeira linha de código. O diagnóstico é creditado aqui.",
+    titulo: "Diagnóstico",
+    descricao: "R$ 500 fixos para mapear onde a operação trava e o que resolver primeiro. O valor é abatido do projeto, e devolvido se você achar que não valeu.",
   },
   {
     numero: "03",
-    titulo: "Construção",
-    descricao: "Entregas parciais, para você ver a solução tomando forma em vez de esperar meses por uma surpresa.",
+    titulo: "Proposta",
+    descricao: "Escopo, valor e prazo fechados antes da primeira linha de código.",
   },
   {
     numero: "04",
-    titulo: "Entrega e evolução",
-    descricao: "Entra em operação com sua equipe treinada. O que foi construído é seu e funciona sem nós.",
+    titulo: "Construção e entrega",
+    descricao: "Entregas parciais, com o pagamento acompanhando as etapas. No fim, sua equipe sai treinada e o que foi construído é seu.",
   },
 ] as const;
 
@@ -494,6 +555,12 @@ export const CASE_ANCORA = {
    */
   fecho:
     "Nenhuma etapa foi vendida de antemão. Cada uma nasceu do que a anterior mostrou ser necessário.",
+  /**
+   * Estava chumbado no JSX como "Quero esse tipo de conversa", que não dizia
+   * que conversa era essa. Quem acabou de ler a operação de outra empresa
+   * está pensando na própria, e o botão nomeia isso.
+   */
+  cta: "Conversar sobre a minha operação",
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -627,7 +694,18 @@ export const FAQ: readonly FaqItem[] = [
   {
     pergunta: "Quanto custa?",
     resposta:
-      "Depende do que o seu caso precisa, e é por isso que não existe tabela aqui. Orçamento fechado antes de entender o problema costuma vir errado, para mais ou para menos. Comece pelo diagnóstico: valor de entrada acessível, creditado no projeto se você decidir seguir.",
+      "A primeira conversa não tem custo. Se fizer sentido seguir, o diagnóstico custa R$ 500 fixos, abatidos integralmente do projeto. O valor do projeto sai do diagnóstico, porque orçamento fechado antes de entender o problema costuma vir errado, para mais ou para menos.",
+  },
+  {
+    /**
+     * Acrescentada em 06/10/2026. "Quanto custa?" diz o preço, esta diz o que
+     * ele compra, que é a objeção seguinte de quem nunca pagou para descobrir
+     * o que precisa. A descrição do entregável é a de
+     * `Marca/06-Funil-de-Entrada.md`, sem acrescentar nada.
+     */
+    pergunta: "Por que pagar R$ 500 pelo diagnóstico?",
+    resposta:
+      "Porque nele o trabalho já começa. Mapeamos o processo, encontramos onde o tempo e o dinheiro vazam e entregamos um documento com a recomendação e o escopo do que fazer. Se você fechar o projeto, os R$ 500 são abatidos. Se achar que não valeu, devolvemos o valor.",
   },
   {
     pergunta: "E se eu não souber o que preciso?",
@@ -697,15 +775,20 @@ export const FAQ: readonly FaqItem[] = [
  * ser lido como um convite a desabafar sobre qualquer coisa. Nomear o
  * sujeito (a operação) devolve o assunto para o terreno do negócio, que é
  * onde a conversa precisa começar.
+ *
+ * Em 06/10/2026 o "Me conte" e o "Como devo te chamar" perderam a primeira
+ * pessoa do singular: a voz da página é da empresa (ver `../CLAUDE.md`,
+ * "Postura"). O subtítulo trocou "o resto é trabalho do diagnóstico", que
+ * não dizia o que acontece depois do envio, pelo próximo passo concreto.
  */
 export const CTA_FINAL = {
   eyebrow: "Próximo passo",
-  titulo: "Me conte onde a sua operação está travando.",
+  titulo: "Conte onde a sua operação está travando.",
   subtitulo:
-    "Não precisa saber qual é a solução, nem usar termo técnico. Descreva a situação como você contaria para um sócio. O resto é trabalho do diagnóstico.",
+    "Não precisa saber qual é a solução, nem usar termo técnico. Descreva a situação como contaria para um sócio. Respondemos pelo WhatsApp para marcar a conversa de 30 a 40 minutos, sem custo.",
   atalho: "Prefere falar direto? O WhatsApp é o canal mais rápido.",
   campos: {
-    nome: { rotulo: "Seu nome", exemplo: "Como devo te chamar" },
+    nome: { rotulo: "Seu nome", exemplo: "Como podemos te chamar" },
     empresa: { rotulo: "Empresa", exemplo: "Nome do seu negócio" },
     gargalo: {
       rotulo: "O que está travando hoje",
@@ -714,6 +797,6 @@ export const CTA_FINAL = {
     },
   },
   erroGargalo: "Descreva o gargalo com um pouco mais de detalhe, nem que seja em uma frase.",
-  botao: "Enviar e abrir conversa",
+  botao: "Enviar e abrir o WhatsApp",
   aviso: "O que você escrever abre o WhatsApp já preenchido. Você revisa antes de enviar.",
 } as const;

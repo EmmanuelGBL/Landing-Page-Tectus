@@ -24,7 +24,8 @@ import { CONTACT, whatsappLink } from "@/lib/site";
  * página. As skills de texto precisam alcançar o último pedido da página sem
  * abrir componente.
  */
-export function CtaFinal() {
+/** `origem` é a primeira linha da mensagem: diz ao atendimento de qual página o lead veio. */
+export function CtaFinal({ origem = "Olá! Vim pelo site da Tectus." }: { origem?: string }) {
   const [nome, setNome] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [gargalo, setGargalo] = useState("");
@@ -41,7 +42,7 @@ export function CtaFinal() {
     setErro(null);
 
     const mensagem = [
-      "Olá! Vim pelo site da Tectus.",
+      origem,
       "",
       `Nome: ${nome.trim()}`,
       empresa.trim() ? `Empresa: ${empresa.trim()}` : null,
@@ -89,7 +90,7 @@ export function CtaFinal() {
             <div className="mt-8 rounded-2xl border border-cinza-linha bg-white p-6">
               <p className="text-[0.95rem] leading-relaxed text-chumbo">{CTA_FINAL.atalho}</p>
               <a
-                href={whatsappLink("Olá! Vim pelo site da Tectus.")}
+                href={whatsappLink(origem)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-flex items-center gap-2.5 text-[1.05rem] font-semibold text-grafite transition-colors hover:text-petroleo-escuro"

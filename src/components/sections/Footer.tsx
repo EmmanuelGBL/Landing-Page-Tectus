@@ -1,10 +1,14 @@
 import { Logo } from "@/components/brand/Logo";
 import { IconeWhatsApp } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
-import { COMPANY, CONTACT, NAV_LINKS, whatsappLink } from "@/lib/site";
+import { COMPANY, CONTACT, NAV_LINKS, whatsappLink, type LinkNavegacao } from "@/lib/site";
 
 /** Sem nome do fundador, conforme a diretriz de exposição pessoal. */
-export function Footer() {
+/**
+ * As rotas de oferta passam os mesmos links apontando para a home ("/#metodo"),
+ * porque as âncoras de lá não existem nelas.
+ */
+export function Footer({ links = NAV_LINKS }: { links?: readonly LinkNavegacao[] }) {
   const ano = new Date().getFullYear();
 
   return (
@@ -23,7 +27,7 @@ export function Footer() {
               Navegação
             </h2>
             <ul className="mt-4 space-y-2.5">
-              {NAV_LINKS.map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}

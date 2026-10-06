@@ -52,8 +52,12 @@ Percorra o texto caçando toda afirmação que um lead poderia checar ou questio
   que a Tectus não controla sozinha é achado crítico, mesmo quando soa apenas otimista.
 - **Placeholder esquecido**: `XX`, `00`, `[número]`, "mais de N clientes", texto lorem. Placeholder
   que sobreviveu até a revisão vira mentira publicada.
-- **Preço** exposto fora do que o projeto autoriza. O modelo é consultivo: só o caráter acessível e
-  credenciável da Consultoria Tecnológica (pilar 06) pode aparecer.
+- **Preço** exposto fora do que o projeto autoriza. O modelo é consultivo. Só três fatos de preço
+  podem aparecer, todos de `../Marca/06-Funil-de-Entrada.md`: a conversa de 30 a 40 minutos é
+  gratuita; o diagnóstico custa R$ 500 fixos, abatidos integralmente se o projeto fechar; e há
+  devolução se o cliente achar que o diagnóstico não valeu. Faixa de valor de qualquer outro pilar
+  é achado crítico. A devolução é compromisso da própria Tectus, por isso não cai na regra de
+  "verbo de garantia" acima.
 - **Nome do fundador** em qualquer lugar da copy de venda. Diretriz de marca fechada.
 
 Achado deste eixo nunca é "médio". Ou tem lastro, ou sai da página.

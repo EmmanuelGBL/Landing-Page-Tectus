@@ -1,4 +1,4 @@
-import { FileCheck2, Hammer, Rocket, Search, type LucideIcon } from "lucide-react";
+import { FileCheck2, Hammer, MessagesSquare, Search, type LucideIcon } from "lucide-react";
 import { BotaoLink, IconeWhatsApp } from "@/components/ui/Button";
 import { Icone } from "@/components/ui/Icone";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,9 +8,10 @@ import { PROCESSO, PROCESSO_FECHO, PROCESSO_TITULO } from "@/lib/conteudo";
 import { WHATSAPP_MESSAGES, whatsappLink } from "@/lib/site";
 
 /**
- * A escada de valor. Aqui entra a resposta à objeção de preço sem citar preço:
- * o diagnóstico é a entrada acessível e o valor é creditado no projeto, o que
- * remove o risco de "pagar só para ouvir um orçamento".
+ * A escada de valor, começando pela conversa gratuita. Aqui entra a resposta
+ * à objeção de preço: o único preço da página (o diagnóstico) aparece já com
+ * o abatimento e a devolução ao lado, o que remove o risco de "pagar só para
+ * ouvir um orçamento".
  *
  * Numeração é informação neste caso: a ordem das etapas importa de verdade.
  *
@@ -22,7 +23,7 @@ import { WHATSAPP_MESSAGES, whatsappLink } from "@/lib/site";
  * fazem o olho desligar antes do fim da página.
  */
 /** Um ícone por etapa, na ordem de `PROCESSO`. */
-const ICONES: readonly LucideIcon[] = [Search, FileCheck2, Hammer, Rocket];
+const ICONES: readonly LucideIcon[] = [MessagesSquare, Search, FileCheck2, Hammer];
 
 export function Processo() {
   return (

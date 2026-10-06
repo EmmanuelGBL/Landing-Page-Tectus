@@ -40,9 +40,14 @@ export default function Home() {
         <Compromissos />
         <Sintomas />
         <Metodo />
-        <Pilares />
-        <Processo />
+        {/* Ordem revista em 06/10/2026. O case subiu para logo depois do
+            Método: é a prova de que o método existe, e antes ela chegava só na
+            oitava seção. Os pilares desceram para depois do "Como funciona",
+            onde leem como o que pode sair do diagnóstico e não como vitrine.
+            Os fundos continuam alternando: grafite, papel, cinza, papel, cinza. */}
         <CaseAncora />
+        <Processo />
+        <Pilares />
         <Projetos />
         <Faq />
         <CtaFinal />

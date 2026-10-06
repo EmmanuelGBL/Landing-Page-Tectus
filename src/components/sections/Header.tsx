@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { BotaoLink, IconeWhatsApp } from "@/components/ui/Button";
-import { NAV_LINKS, WHATSAPP_MESSAGES, whatsappLink } from "@/lib/site";
+import { NAV_LINKS, WHATSAPP_MESSAGES, whatsappLink, type LinkNavegacao } from "@/lib/site";
 
 /**
  * O header ganhou um indicador de seção ativa: ele diz onde a pessoa está
@@ -17,9 +17,20 @@ import { NAV_LINKS, WHATSAPP_MESSAGES, whatsappLink } from "@/lib/site";
  * e ainda colocava um elemento em movimento permanente no topo da tela.
  */
 
-const IDS_SECOES = NAV_LINKS.map((link) => link.href.replace("#", ""));
+type HeaderProps = {
+  /**
+   * Navegação do topo. As rotas de oferta passam lista vazia: quem chegou por
+   * anúncio tem uma ação só a tomar, e menu com seis destinos é seis saídas.
+   * Sem links, somem o menu, o botão de abrir menu e o indicador de seção.
+   */
+  links?: readonly LinkNavegacao[];
+  mensagemWhatsapp?: string;
+};
 
-export function Header() {
+export function Header({
+  links = NAV_LINKS,
+  mensagemWhatsapp = WHATSAPP_MESSAGES.header,
+}: HeaderProps) {
   const [encolhido, setEncolhido] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
   const [ativa, setAtiva] = useState<string | null>(null);
@@ -38,9 +49,9 @@ export function Header() {
    * no instante em que encosta na borda de baixo.
    */
   useEffect(() => {
-    const secoes = IDS_SECOES.map((id) => document.getElementById(id)).filter(
-      (elemento): elemento is HTMLElement => elemento !== null,
-    );
+    const secoes = links
+      .map((link) => document.getElementById(link.href.replace("#", "")))
+      .filter((elemento): elemento is HTMLElement => elemento !== null);
     if (secoes.length === 0) return;
 
     const observador = new IntersectionObserver(
@@ -55,7 +66,9 @@ export function Header() {
 
     secoes.forEach((secao) => observador.observe(secao));
     return () => observador.disconnect();
-  }, []);
+  }, [links]);
+
+  const temNavegacao = links.length > 0;
 
   return (
     <header
@@ -73,35 +86,37 @@ export function Header() {
           <Logo />
         </a>
 
-        <nav aria-label="Navegação principal" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const estaAtiva = ativa === link.href.replace("#", "");
-              return (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    aria-current={estaAtiva ? "true" : undefined}
-                    className={`relative block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                      estaAtiva ? "text-grafite" : "text-chumbo hover:text-grafite"
-                    }`}
-                  >
-                    {link.label}
-                    <span
-                      aria-hidden="true"
-                      className={`absolute inset-x-3 bottom-1 h-[2px] origin-left rounded-full bg-petroleo transition-transform duration-300 ease-out ${
-                        estaAtiva ? "scale-x-100" : "scale-x-0"
+        {temNavegacao ? (
+          <nav aria-label="Navegação principal" className="ml-auto hidden lg:block">
+            <ul className="flex items-center gap-1">
+              {links.map((link) => {
+                const estaAtiva = ativa === link.href.replace("#", "");
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      aria-current={estaAtiva ? "true" : undefined}
+                      className={`relative block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        estaAtiva ? "text-grafite" : "text-chumbo hover:text-grafite"
                       }`}
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
+                    >
+                      {link.label}
+                      <span
+                        aria-hidden="true"
+                        className={`absolute inset-x-3 bottom-1 h-[2px] origin-left rounded-full bg-petroleo transition-transform duration-300 ease-out ${
+                          estaAtiva ? "scale-x-100" : "scale-x-0"
+                        }`}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        ) : null}
 
         <BotaoLink
-          href={whatsappLink(WHATSAPP_MESSAGES.header)}
+          href={whatsappLink(mensagemWhatsapp)}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Falar agora no WhatsApp"
@@ -115,29 +130,31 @@ export function Header() {
           <span className="hidden min-[360px]:inline sm:hidden">WhatsApp</span>
         </BotaoLink>
 
-        <button
-          type="button"
-          onClick={() => setMenuAberto((aberto) => !aberto)}
-          aria-expanded={menuAberto}
-          aria-controls="menu-mobile"
-          className="rounded-md p-1.5 text-grafite lg:hidden"
-        >
-          <span className="sr-only">{menuAberto ? "Fechar menu" : "Abrir menu"}</span>
-          <svg
-            viewBox="0 0 24 24"
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            aria-hidden="true"
+        {temNavegacao ? (
+          <button
+            type="button"
+            onClick={() => setMenuAberto((aberto) => !aberto)}
+            aria-expanded={menuAberto}
+            aria-controls="menu-mobile"
+            className="rounded-md p-1.5 text-grafite lg:hidden"
           >
-            {menuAberto ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+            <span className="sr-only">{menuAberto ? "Fechar menu" : "Abrir menu"}</span>
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {menuAberto ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+            </svg>
+          </button>
+        ) : null}
       </div>
 
-      {menuAberto ? (
+      {temNavegacao && menuAberto ? (
         <nav
           id="menu-mobile"
           aria-label="Navegação principal"
@@ -145,7 +162,7 @@ export function Header() {
           style={{ animation: "surgir 260ms ease-out forwards" }}
         >
           <ul className="mx-auto flex w-full max-w-[75rem] flex-col px-6 py-2">
-            {NAV_LINKS.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}

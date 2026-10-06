@@ -1,36 +1,91 @@
 # Publicação, servidor e domínio
 
-Como a landing sai do código e chega no ar. Última revisão: 03/09/2026.
+Como a landing sai do código e chega no ar. Última revisão: 04/09/2026.
 
 ---
 
-## Onde paramos em 03/09/2026, e o que falta
+## Onde paramos em 04/09/2026, e o que falta
 
-O site **está no ar e respondendo** em `72.61.48.71`, verificado de fora: `200`, HTML de 190 KB,
-`robots.txt` liberando, imagem de Open Graph com `image/png`, container do GTM presente e nenhum
-`noindex`. Falta só o endereço apontar para lá.
+O site **está no ar em `https://tectussolucoes.com.br`**, domínio próprio, com certificado válido
+e proxy da Cloudflare ligado. DNS, certbot e Cloudflare (passos 1 a 3 da lista antiga) estão
+concluídos. Verificado de fora, na sequência do dia:
 
-### Pendências, na ordem
+* `nslookup tectussolucoes.com.br` e `nslookup www.tectussolucoes.com.br` resolvendo para
+  `72.61.48.71`.
+* `certbot --nginx -d tectussolucoes.com.br -d www.tectussolucoes.com.br` emitido com sucesso
+  (expira em 03/12/2026, renovação automática agendada pelo próprio certbot).
+* `https://tectussolucoes.com.br` responde `200`. `https://www.tectussolucoes.com.br` faz `301`
+  para a versão sem `www`, como o Nginx já previa.
+* Proxy da Cloudflare ligado (nuvem laranja) nos dois registros, confirmado pelo Emmanuel.
 
-1. **DNS.** Os nameservers da Cloudflare (`clark.ns.cloudflare.com`, `tess.ns.cloudflare.com`)
-   foram apontados no registro.br em 03/09/2026, à noite. Confirmar que assumiram, e que existem
-   os dois registros: `A` no nome `@` para `72.61.48.71`, e `CNAME www` para
-   `tectussolucoes.com.br`. **Os dois em Somente DNS**, nuvem cinza.
-2. **Certificado.** Quando `nslookup tectussolucoes.com.br` responder `72.61.48.71`, rodar na VPS:
-   ```bash
-   certbot --nginx -d tectussolucoes.com.br -d www.tectussolucoes.com.br
-   ```
-   Ele emite, insere os blocos 443 e liga a renovação. Rodar antes do DNS resolver queima
-   tentativa no limite da Let's Encrypt.
-3. **Proxy da Cloudflare.** Só depois do HTTPS funcionando direto da VPS. Ligar a nuvem laranja
-   nos dois registros e pôr SSL/TLS em **Full (strict)**. Ligar antes dá laço de redirecionamento.
-   Este passo é opcional: o site é HTML estático leve, então CDN aqui é conforto.
-4. **Search Console.** Conectar e pedir indexação. É o relógio de duas a quatro semanas que
-   precisa correr antes da primeira campanha, e ele só começa aqui.
-5. **Conversões no GA4.** Abrir o site, clicar num botão de WhatsApp, esperar alguns minutos e
-   marcar a estrela em `contato_whatsapp`, `lead_enviado` e `conversa_agendada`. O GA4 não deixa
-   criar evento principal pelo nome: ele só oferece a estrela depois de receber o evento uma vez.
-   Sem esses três marcados, o Google Ads não tem o que otimizar.
+**Consequência que muda o resto da documentação:** `NEXT_PUBLIC_SITE_URL` já bate com o domínio
+oficial, então `INDEXAVEL` (`src/lib/site.ts`) já está verdadeiro. O site publicado não está mais
+em `noindex`, está indexável de verdade.
+
+### O que ainda falta, na ordem
+
+1. ~~**Search Console.**~~ Feito em 04/09/2026. Propriedade de domínio `tectussolucoes.com.br`
+   adicionada na conta `emmanuelgmmonteiro@gmail.com` (a mesma do GA4 e do GTM). Verificação saiu
+   pelo registro TXT no Cloudflare, adicionado manualmente pelo Emmanuel (o fluxo automático de
+   "Domain Connect" do Google chegou a abrir, mas foi cancelado por ser redundante). Indexação da
+   home solicitada pela Inspeção de URL logo em seguida. Relógio de duas a quatro semanas rodando
+   a partir de hoje.
+2. **Conversões no GA4.** Testado em 04/09/2026, falta só marcar a estrela. Clicando no botão de
+   WhatsApp do header e enviando o formulário de diagnóstico (com dado de teste, claramente
+   marcado como teste, sem contato real), os dois eventos apareceram no relatório em tempo real:
+   `contato_whatsapp` e `lead_enviado`. Mas o GA4 só libera a estrela de conversão em
+   **Admin > Eventos > Eventos recentes** depois de processar o evento na lista, o que o próprio
+   painel avisa que leva até 24h, sem atalho. Lembrete agendado para 07/09/2026 para voltar e
+   marcar os dois. `conversa_agendada` continua sem existir, porque depende da página de
+   agendamento, que ainda não está no ar.
+
+### "Página com redirecionamento" no Search Console é esperado, não é defeito
+
+Em 06/09/2026 o Search Console mandou e-mail anunciando um "novo motivo que impede a indexação":
+**Página com redirecionamento**. Aberto o relatório, a lista tinha **uma URL só**:
+`http://tectussolucoes.com.br/`, rastreada em 04/09.
+
+A propriedade cadastrada é de **domínio**, então ela cobre as quatro variações do endereço, e o
+Google rastreia todas. Medido em 07/09/2026:
+
+| URL | Resposta |
+|---|---|
+| `https://tectussolucoes.com.br/` | 200, a página real |
+| `https://www.tectussolucoes.com.br/` | 301 para o domínio sem `www` |
+| `http://tectussolucoes.com.br/` | 301 para HTTPS |
+| `http://www.tectussolucoes.com.br/` | 301 para HTTPS, depois para sem `www` |
+
+As três variações redirecionadas nunca deveriam virar página no índice, e é isso que o relatório
+está dizendo. Seria problema o contrário: a versão HTTP ausente da lista significaria que o site
+serve conteúdo sem forçar HTTPS.
+
+**Não clicar em "Você terminou de corrigir os problemas?".** A validação revalida a URL, encontra o
+mesmo 301 permanente e falha, deixando alerta no painel por um comportamento correto. O item fica
+como está.
+
+Só existe motivo para investigar se `https://tectussolucoes.com.br/` (sem `www`, com HTTPS) aparecer
+nessa lista algum dia. Aí o canonical, o sitemap ou o Nginx quebraram.
+
+### Nota: o `robots.txt` no ar não é o que o build gera
+
+A Cloudflare injeta um bloco gerenciado por cima do arquivo servido pela VPS, com `Disallow: /`
+para GPTBot, ClaudeBot, CCBot, Bytespider, meta-externalagent e Google-Extended, mais um cabeçalho
+`Content-Signal: search=yes,ai-train=no,use=reference`.
+
+Isso **não afeta a indexação**: o Googlebot de busca continua com `Allow: /`, e `Google-Extended`
+governa treino de IA, não a busca. Mas é decisão tomada por padrão da plataforma, não por nós, e
+significa que ler `https://tectussolucoes.com.br/robots.txt` não mostra o que `src/app/robots.ts`
+produziu. Para conferir o nosso, olhar o arquivo dentro da release publicada na VPS.
+
+O `publicar-vps.sh` continua correto ao checar o robots do build: ele valida a nossa parte, que é
+a única sob nosso controle.
+
+### Nota do dia: CNAME do `www` errado na primeira tentativa
+
+A primeira configuração do registro `CNAME www` no Cloudflare apontava para o IP `72.61.48.71` em
+vez do nome de domínio `tectussolucoes.com.br`. CNAME sempre aponta para um nome, nunca para IP; o
+próprio Cloudflare recusou salvar ("Content for CNAME record is invalid"). Corrigido apontando o
+CNAME para `tectussolucoes.com.br`. Vale registrar caso o padrão se repita num cliente novo.
 
 ### Coisa pequena que ficou pendente
 

@@ -194,6 +194,20 @@ export type Sintoma = {
  * fecho, que separa uma de duas ou mais. "Cenas" saiu junto por ser vocabulário
  * nosso: ninguém chama o próprio dia de trabalho de cena.
  */
+/** Cabeçalho padrão de seção (eyebrow, título e subtítulo). */
+export type TituloDeSecao = {
+  eyebrow: string;
+  titulo: string;
+  subtitulo: string;
+};
+
+export type ConteudoSintomasTitulo = TituloDeSecao & {
+  instrucao: string;
+  fechoUm: string;
+  fecho: string;
+  ctaMarcados: string;
+};
+
 export const SINTOMAS_TITULO = {
   eyebrow: "Diagnóstico rápido",
   titulo: "Quantas dessas acontecem na sua empresa?",
@@ -288,6 +302,17 @@ export const SINTOMAS: readonly Sintoma[] = [
  * software house torna os dois últimos parágrafos falsos, porque quem cobra
  * por hora tem incentivo oposto.
  */
+export type ConteudoMetodo = {
+  eyebrow: string;
+  /** Duas linhas: a quebra é visual, o texto acessível leva um espaço. */
+  titulo: readonly [string, string];
+  paragrafos: readonly string[];
+  fecho: string;
+  cta: string;
+  compromissosTitulo: string;
+  compromissos: readonly string[];
+};
+
 export const METODO = {
   eyebrow: "O diferencial",
   titulo: ["Primeiro entendemos.", "Depois construímos."],
